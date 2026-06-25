@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function HeroSection({ settings }) {
+export default function HeroSection({ settings, onShopNow, onBrowseOffers }) {
   // Try to find a active banner from settings or use a gorgeous fallback
   const bannerImage = settings?.dashboard_banner || settings?.banner_image;
   const isBannerEnabled = settings?.show_dashboard_banner !== false;
@@ -25,10 +25,16 @@ export default function HeroSection({ settings }) {
             اكتشفوا تشكيلاتنا الحصرية والراقية من ملابس الأطفال (ولادي، بناتي واكسسوارات) بجودة متميزة وأسعار تنافسية تلائم رغباتكم.
           </p>
           <div className="flex items-center justify-center md:justify-start gap-4 pt-2">
-            <button className="px-6 py-2.5 rounded-full bg-primary hover:bg-primary-dark text-white font-bold text-sm shadow-lg shadow-primary/20 transition-all hover:scale-105">
+            <button 
+              onClick={onShopNow}
+              className="px-6 py-2.5 rounded-full bg-primary hover:bg-primary-dark text-white font-bold text-sm shadow-lg shadow-primary/20 transition-all hover:scale-105"
+            >
               تسوق الآن
             </button>
-            <button className="px-6 py-2.5 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-semibold text-sm hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-all">
+            <button 
+              onClick={onBrowseOffers}
+              className="px-6 py-2.5 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-semibold text-sm hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-all"
+            >
               تصفح العروض
             </button>
           </div>

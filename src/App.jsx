@@ -254,7 +254,19 @@ export default function App() {
           <div className="space-y-6">
             
             {/* Hero promo Section */}
-            <HeroSection settings={settings} />
+            <HeroSection 
+              settings={settings} 
+              onShopNow={() => {
+                setSearchQuery('');
+                setGenderType('');
+                setHasDiscount('');
+                setPage(1);
+              }}
+              onBrowseOffers={() => {
+                setHasDiscount('1');
+                setPage(1);
+              }}
+            />
 
             {/* Filters panel */}
             <div className="bg-white dark:bg-slate-800 rounded-3xl border border-slate-200/60 dark:border-slate-700/50 shadow-sm p-4 flex flex-col md:flex-row gap-4 items-center justify-between">
