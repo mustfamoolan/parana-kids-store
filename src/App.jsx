@@ -74,14 +74,48 @@ export default function App() {
     localStorage.setItem('shop_favorites', JSON.stringify(favorites));
   }, [favorites]);
 
-  // Load User, Settings and Initial Products
+  // Load User, Settings and Initial Products + Telegram Mini App integration
   useEffect(() => {
-    // Check if user token exists
+    // 1. Initialize Telegram WebApp if running inside Telegram
+    if (window.Telegram?.WebApp) {
+      try {
+        const tg = window.Telegram.WebApp;
+        tg.ready();
+        tg.expand();
+
+        // Automatically log in the Telegram user if not already logged in
+        if (!api.isLoggedIn() && tg.initDataUnsafe?.user) {
+          const tgUser = tg.initDataUnsafe.user;
+          const name = tgUser.first_name + (tgUser.last_name ? ' ' + tgUser.last_name : '');
+          const email = `${tgUser.id}@telegram.com`;
+          const telegramPayload = {
+            name: name || 'مستخدم تيليجرام',
+            email: email,
+            google_id: `telegram_${tgUser.id}`,
+            profile_image: tgUser.photo_url || ''
+          };
+
+          setLoading(true);
+          api.loginWithGoogle(telegramPayload)
+            .then(data => {
+              if (data.success && data.user) {
+                setUser(data.user);
+              }
+            })
+            .catch(err => console.error('Telegram auto-login failed:', err))
+            .finally(() => setLoading(false));
+        }
+      } catch (err) {
+        console.error('Error setting up Telegram WebApp:', err);
+      }
+    }
+
+    // 2. Check if user token exists
     if (api.isLoggedIn()) {
       setUser(api.getUser());
     }
 
-    // Fetch store settings
+    // 3. Fetch store settings
     api.getSettings()
       .then(res => {
         if (res.success && res.data) {
