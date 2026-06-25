@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "build-deploy": "vite build && powershell -Command \"Copy-Item -Path dist/* -Destination ../store-web-laravel/public/ -Recurse -Force\"",
     "preview": "vite preview"
   },
   "dependencies": {

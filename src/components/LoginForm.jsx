@@ -60,8 +60,7 @@ export default function LoginForm({ onLoginSuccess, onCancel }) {
     script.onload = () => {
       if (window.google) {
         window.google.accounts.id.initialize({
-          // This is a test Web Client ID from Google. For production, the user can replace this with their client ID.
-          client_id: "870634620603-n378epom9bspv6c1f1hld8oc0qf8g07f.apps.googleusercontent.com",
+          client_id: "223597554792-sp690rksq17l62s37gdorv9bffjba0th.apps.googleusercontent.com",
           callback: handleCredentialResponse
         });
         window.google.accounts.id.renderButton(
