@@ -63,7 +63,7 @@ export default function LoginForm({ onLoginSuccess, onCancel }) {
         });
         window.google.accounts.id.renderButton(
           document.getElementById("google-signin-btn"),
-          { theme: "outline", size: "large", width: 350, text: "continue_with" }
+          { theme: "outline", size: "large", width: 280, text: "continue_with" }
         );
       }
     };
