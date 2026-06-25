@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { LogIn, Shield, Chrome } from 'lucide-react';
+import { Shield } from 'lucide-react';
 
 export default function LoginForm({ onLoginSuccess, onCancel }) {
   const [loading, setLoading] = useState(false);
-  const [demoName, setDemoName] = useState('أبو أحمد');
-  const [demoEmail, setDemoEmail] = useState('demo.customer@example.com');
   const [error, setError] = useState('');
 
   // Helper to decode JWT payload locally
@@ -104,26 +102,6 @@ export default function LoginForm({ onLoginSuccess, onCancel }) {
     }
   };
 
-  const handleDemoSubmit = async (e) => {
-    e.preventDefault();
-    if (!demoName.trim() || !demoEmail.trim()) {
-      setError('يرجى ملء جميع الحقول التجريبية');
-      return;
-    }
-
-    setLoading(true);
-    setError('');
-
-    const mockPayload = {
-      name: demoName,
-      email: demoEmail,
-      google_id: `demo_${Date.now()}`,
-      profile_image: `https://api.dicebear.com/7.x/adventurer/svg?seed=${encodeURIComponent(demoName)}`
-    };
-
-    await submitLoginToApi(mockPayload);
-  };
-
   return (
     <div className="fixed inset-0 z-[120] flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-fade-in" style={{ direction: 'rtl' }}>
       <div 
@@ -147,62 +125,20 @@ export default function LoginForm({ onLoginSuccess, onCancel }) {
           )}
 
           {/* Social login integration */}
-          <div className="flex flex-col items-center justify-center space-y-3">
-            <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 self-start">تسجيل الدخول المباشر:</label>
-            <div id="google-signin-btn" className="w-full flex justify-center"></div>
+          <div className="flex flex-col items-center justify-center py-6 space-y-4">
+            <div id="google-signin-btn" className="w-full flex justify-center scale-105 transition-transform"></div>
+            {loading && (
+              <div className="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
+                <div className="w-4 h-4 rounded-full border-2 border-primary border-t-transparent animate-spin"></div>
+                <span>جاري تسجيل الدخول...</span>
+              </div>
+            )}
           </div>
-
-          {/* Divider */}
-          <div className="relative flex py-2 items-center">
-            <div className="flex-grow border-t border-slate-200 dark:border-slate-700"></div>
-            <span className="flex-shrink mx-4 text-slate-400 text-xs">أو حساب تجريبي (دخول بدون جوجل)</span>
-            <div className="flex-grow border-t border-slate-200 dark:border-slate-700"></div>
-          </div>
-
-          {/* Demo account inputs */}
-          <form onSubmit={handleDemoSubmit} className="space-y-4">
-            <div className="space-y-1.5">
-              <label className="block text-xs font-bold text-slate-500 dark:text-slate-400">الاسم الكامل:</label>
-              <input
-                type="text"
-                value={demoName}
-                onChange={(e) => setDemoName(e.target.value)}
-                className="w-full bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-white px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 text-sm focus:outline-none focus:border-primary/50"
-                placeholder="مثال: أحمد علي..."
-              />
-            </div>
-            
-            <div className="space-y-1.5">
-              <label className="block text-xs font-bold text-slate-500 dark:text-slate-400">البريد الإلكتروني:</label>
-              <input
-                type="email"
-                value={demoEmail}
-                onChange={(e) => setDemoEmail(e.target.value)}
-                className="w-full bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-white px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 text-sm focus:outline-none focus:border-primary/50"
-                placeholder="example@gmail.com"
-              />
-            </div>
-
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full py-3 bg-primary hover:bg-primary-dark text-white font-bold text-sm rounded-2xl shadow-lg shadow-primary/10 transition-all flex items-center justify-center gap-2"
-            >
-              {loading ? (
-                <div className="w-5 h-5 rounded-full border-2 border-white border-t-transparent animate-spin"></div>
-              ) : (
-                <>
-                  <LogIn size={18} />
-                  <span>دخول سريع (جهاز التجريب)</span>
-                </>
-              )}
-            </button>
-          </form>
 
           {/* Cancel button */}
           <button
             onClick={onCancel}
-            className="w-full py-2.5 text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 font-semibold text-sm transition-colors"
+            className="w-full py-3 border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold text-sm rounded-2xl transition-all"
           >
             إلغاء
           </button>
